@@ -30,7 +30,11 @@
       </button>
       the list?
     </p>
-    <router-link v-if="favoriteListLength > 0" class="nes-btn" to="/overview">
+    <router-link
+      v-if="favoriteListLength > 0"
+      class="nes-btn"
+      to="/overviewFavoritePokemon"
+    >
       View your favorite Pokémon
     </router-link>
   </div>

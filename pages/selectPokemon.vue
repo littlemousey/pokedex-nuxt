@@ -32,6 +32,7 @@ export default {
 }
 
 .select-pokemon-content {
+  text-align: left;
   display: flex;
   justify-content: space-evenly;
 }

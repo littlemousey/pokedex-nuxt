@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { validatePassword } from '@/utils/validatePassword'
 
 const LOCAL_STORAGE_PKM_NAMES = 'favoritePokemonNames'
@@ -44,12 +44,18 @@ export default {
       showPasswordError: false
     }
   },
+  computed: {
+    ...mapState(['loggedIn'])
+  },
   async created() {
     const pokemonData = await this.getPokemonData()
     this.setPokemonData(pokemonData)
   },
   mounted() {
     this.getDataFromLocalStorage()
+    if (this.loggedIn) {
+      this.$router.push('/selectPokemon')
+    }
   },
   methods: {
     checkPassword() {
