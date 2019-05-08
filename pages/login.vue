@@ -56,7 +56,7 @@ export default {
       if (this.passwordCorrect) {
         this.setUserLoggedIn()
         Cookies.set(
-          'pokedex-nuxt-user',
+          'pokedexNuxtUser',
           { userLoggedIn: true },
           { expires: 1, secure: false }
         )
