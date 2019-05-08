@@ -13,7 +13,7 @@
         :key="index"
         class="chosen-pokemon"
       >
-        <img src="../assets/pokeball.png" alt="pokeball" />
+        <img src="../assets/img/pokeball.png" alt="pokeball" />
         {{ pokemonName }}
       </p>
     </template>

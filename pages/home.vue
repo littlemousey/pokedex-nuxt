@@ -1,6 +1,6 @@
 <template>
   <div class="select-pokemon-page">
-    <img src="~/assets/logo.svg" alt="pokémon" />
+    <img src="~/assets/img/logo.svg" alt="pokémon" />
     <div class="select-pokemon-content">
       <pokemon-list
         :state-pokemon-data-list="statePokemonDataList"
