@@ -32,9 +32,6 @@
 import { mapActions, mapState } from 'vuex'
 import { validatePassword } from '@/utils/validatePassword'
 
-const LOCAL_STORAGE_PKM_NAMES = 'favoritePokemonNames'
-const LOCAL_STORAGE_USER = 'userLoggedIn'
-
 export default {
   data: function() {
     return {
@@ -45,16 +42,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loggedIn'])
-  },
-  async created() {
-    const pokemonData = await this.getPokemonData()
-    this.setPokemonData(pokemonData)
+    ...mapState('user', ['loggedIn'])
   },
   mounted() {
-    this.getDataFromLocalStorage()
     if (this.loggedIn) {
-      this.$router.push('/selectPokemon')
+      this.$router.push('/home')
     }
   },
   methods: {
@@ -62,35 +54,12 @@ export default {
       this.passwordCorrect = validatePassword(this.password)
       if (this.passwordCorrect) {
         this.setUserLoggedIn()
-        this.$router.push('selectPokemon')
+        this.$router.push('home')
       } else {
         this.showPasswordError = true
       }
     },
-    getDataFromLocalStorage() {
-      const localStoragePkmNames = JSON.parse(
-        window.localStorage.getItem(LOCAL_STORAGE_PKM_NAMES)
-      )
-      const localStorageUser = JSON.parse(
-        window.localStorage.getItem(LOCAL_STORAGE_USER)
-      )
-      if (localStoragePkmNames) {
-        this.setFavoritePokemonList(localStoragePkmNames)
-      }
-      if (localStorageUser) {
-        this.setUserLoggedIn()
-      }
-    },
-    async getPokemonData() {
-      const data = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
-      const json = await data.json()
-      return json.results
-    },
-    ...mapActions([
-      'setFavoritePokemonList',
-      'setPokemonData',
-      'setUserLoggedIn'
-    ])
+    ...mapActions('user', ['setUserLoggedIn'])
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <h1 class="overview-favorite-pokemon__title">
       Your favorite Pokémon
     </h1>
-    <router-link class="nes-btn" to="/selectPokemon">
+    <router-link class="nes-btn" to="/home">
       Go back
     </router-link>
     <div class="overview-favorite-pokemon">
@@ -24,7 +24,7 @@ export default {
     PokemonCard
   },
   computed: {
-    ...mapState(['stateFavoritePokemonList'])
+    ...mapState('favoritePokemon', ['stateFavoritePokemonList'])
   }
 }
 </script>

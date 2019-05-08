@@ -40,11 +40,19 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
 export default {
   name: 'PokemonList',
+  props: {
+    statePokemonDataList: {
+      type: Array,
+      required: true
+    },
+    stateFavoritePokemonList: {
+      type: Array,
+      required: true
+    }
+  },
   computed: {
-    ...mapState(['stateFavoritePokemonList', 'statePokemonDataList']),
     favoriteListLength() {
       return this.stateFavoritePokemonList.length
     }
@@ -53,11 +61,11 @@ export default {
     setFavorites(name) {
       if (this.stateFavoritePokemonList.includes(name)) {
         const indexInArray = this.stateFavoritePokemonList.indexOf(name)
-        this.deleteFavorite(indexInArray)
+        this.$emit('deleteFavoritePokemon', indexInArray)
         return
       }
       if (this.favoriteListLength < 10) {
-        this.addFavorite(name)
+        this.$emit('addFavoritePokemon', name)
       }
     },
     playPokemonCry(pokemonId) {
@@ -65,8 +73,7 @@ export default {
         `https://pokemoncries.com/cries-old/${pokemonId}.mp3`
       )
       audio.play()
-    },
-    ...mapActions(['addFavorite', 'deleteFavorite'])
+    }
   }
 }
 </script>

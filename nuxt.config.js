@@ -44,5 +44,13 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  build: {
+    extend(config, ctx) {
+      if (ctx.isDev && ctx.isClient) {
+        config.devtool = 'cheap-module-eval-source-map'
+      }
+    }
   }
 }

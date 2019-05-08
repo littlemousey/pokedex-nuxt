@@ -30,27 +30,31 @@
       </button>
       the list?
     </p>
-    <router-link
-      v-if="favoriteListLength > 0"
-      class="nes-btn"
-      to="/overviewFavoritePokemon"
-    >
+    <router-link v-if="favoriteListLength > 0" class="nes-btn" to="/favorites">
       View your favorite Pokémon
     </router-link>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
 export default {
   name: 'SummaryFavorites',
+  props: {
+    statePokemonDataList: {
+      type: Array,
+      required: true
+    },
+    stateFavoritePokemonList: {
+      type: Array,
+      required: true
+    }
+  },
   data: function() {
     return {
       maximumList: 10
     }
   },
   computed: {
-    ...mapState(['stateFavoritePokemonList', 'statePokemonDataList']),
     favoriteListLength() {
       return this.stateFavoritePokemonList.length
     }
@@ -76,12 +80,13 @@ export default {
       }, this)
 
       const number = Math.floor(Math.random() * Math.floor(list.length))
-      this.addFavorite(list[number].name)
+      // this.addFavorite(list[number].name)
+      this.$emit('addFavoritePokemon', list[number].name)
     },
     emptyFavoritePokemonList() {
-      this.eraseFavoritePokemonList()
-    },
-    ...mapActions(['addFavorite', 'eraseFavoritePokemonList'])
+      // this.eraseFavoritePokemonList()
+      this.$emit('eraseFavoritePokemonList')
+    }
   }
 }
 </script>

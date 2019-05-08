@@ -25,9 +25,6 @@
           {{ typesOfPokemon.type.name }}
         </span>
       </p>
-      <!-- <p v-for="(property, index) in pokemonData.stats" :key="`property${index}`">
-        {{ property.stat.name }}: {{ property.base_stat }}
-      </p> -->
       <p>{{ pokemonDescription[0].flavor_text }}</p>
     </div>
   </div>
@@ -58,14 +55,14 @@ export default {
   },
   methods: {
     async getDataSpecificPokemon(name) {
-      const data = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
-      const json = await data.json()
-      return json
+      const data = await this.$axios.$get(
+        `https://pokeapi.co/api/v2/pokemon/${name}/`
+      )
+      return data
     },
     async getPokemonDescription(pokemonData) {
-      const data = await fetch(`${pokemonData.species.url}`)
-      const json = await data.json()
-      return json.flavor_text_entries.filter(function(element) {
+      const data = await this.$axios.$get(`${pokemonData.species.url}`)
+      return data.flavor_text_entries.filter(function(element) {
         return element.language.name === 'en'
       })
     }
