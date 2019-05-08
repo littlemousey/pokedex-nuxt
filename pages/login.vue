@@ -45,11 +45,6 @@ export default {
   computed: {
     ...mapState('user', ['loggedIn'])
   },
-  mounted() {
-    if (this.loggedIn) {
-      this.$router.push('/home')
-    }
-  },
   methods: {
     checkPassword() {
       this.passwordCorrect = validatePassword(this.password)
@@ -60,7 +55,7 @@ export default {
           { userLoggedIn: true },
           { expires: 1, secure: false }
         )
-        this.$router.push('home')
+        this.$router.push('/home')
       } else {
         this.showPasswordError = true
       }
