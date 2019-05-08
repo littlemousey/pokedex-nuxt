@@ -25,6 +25,9 @@ export default {
   },
   computed: {
     ...mapState('favoritePokemon', ['stateFavoritePokemonList'])
+  },
+  meta: {
+    requiresAuth: true
   }
 }
 </script>

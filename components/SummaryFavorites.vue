@@ -80,11 +80,9 @@ export default {
       }, this)
 
       const number = Math.floor(Math.random() * Math.floor(list.length))
-      // this.addFavorite(list[number].name)
       this.$emit('addFavoritePokemon', list[number].name)
     },
     emptyFavoritePokemonList() {
-      // this.eraseFavoritePokemonList()
       this.$emit('eraseFavoritePokemonList')
     }
   }

@@ -31,6 +31,7 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { validatePassword } from '@/utils/validatePassword'
+import * as Cookies from 'js-cookie'
 
 export default {
   data: function() {
@@ -54,12 +55,20 @@ export default {
       this.passwordCorrect = validatePassword(this.password)
       if (this.passwordCorrect) {
         this.setUserLoggedIn()
+        Cookies.set(
+          'pokedex-nuxt-user',
+          { userLoggedIn: true },
+          { expires: 1, secure: false }
+        )
         this.$router.push('home')
       } else {
         this.showPasswordError = true
       }
     },
     ...mapActions('user', ['setUserLoggedIn'])
+  },
+  meta: {
+    requiresAuth: false
   }
 }
 </script>

@@ -52,5 +52,8 @@ export default {
         config.devtool = 'cheap-module-eval-source-map'
       }
     }
+  },
+  router: {
+    middleware: ['authentication']
   }
 }

@@ -50,6 +50,9 @@ export default {
     ...mapActions('favoritePokemon', ['deleteFavorite']),
     ...mapActions('favoritePokemon', ['addFavorite']),
     ...mapActions('favoritePokemon', ['eraseFavoritePokemonList'])
+  },
+  meta: {
+    requiresAuth: true
   }
 }
 </script>
