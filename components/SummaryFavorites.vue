@@ -7,17 +7,15 @@
         Pick Pokémon
       </button>
     </p>
-    <template>
-      <p
-        v-for="(pokemonName, index) in stateFavoritePokemonList"
-        :key="index"
-        class="chosen-pokemon"
-      >
-        <img src="../assets/img/pokeball.png" alt="pokeball" />
-        {{ pokemonName }}
-      </p>
-    </template>
-    <p v-if="favoriteListLength > 1 && favoriteListLength < maximumList">
+    <p
+      v-for="(pokemonName, index) in stateFavoritePokemonList"
+      :key="`fav-pkm-${index}`"
+      class="chosen-pokemon"
+    >
+      <img src="../assets/img/pokeball.png" alt="pokeball" />
+      {{ pokemonName }}
+    </p>
+    <p v-show="morePokemonCanBeAdded">
       You can add {{ maximumList - favoriteListLength }} more Pokémon
     </p>
     <p v-if="favoriteListLength > 9">
@@ -57,6 +55,12 @@ export default {
   computed: {
     favoriteListLength() {
       return this.stateFavoritePokemonList.length
+    },
+    morePokemonCanBeAdded() {
+      return (
+        this.favoriteListLength > 1 &&
+        this.favoriteListLength < this.maximumList
+      )
     }
   },
   methods: {
