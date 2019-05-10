@@ -2,3 +2,9 @@
     font-family: 'Press Start 2P';
     src: url("../static/fonts/PressStart2P-Regular.ttf");
 }
+
+/* https://builtvisible.com/image-scaling-in-css */
+img {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
+}
