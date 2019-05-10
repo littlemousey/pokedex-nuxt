@@ -3,7 +3,7 @@
     <h1 class="overview-favorite-pokemon__title">
       Your favorite Pokémon
     </h1>
-    <router-link class="nes-btn" to="/home">
+    <router-link class="nes-btn" to="/">
       Go back
     </router-link>
     <div class="overview-favorite-pokemon">

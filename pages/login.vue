@@ -55,7 +55,7 @@ export default {
           { userLoggedIn: true },
           { expires: 1, secure: false }
         )
-        this.$router.push('/home')
+        this.$router.push('/')
       } else {
         this.showPasswordError = true
       }

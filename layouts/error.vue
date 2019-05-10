@@ -5,7 +5,7 @@
       <p>{{ error.message }}</p>
       <p>
         Return to
-        <nuxt-link to="/home" class="nes-btn is-primary">
+        <nuxt-link to="/" class="nes-btn is-primary">
           Home
         </nuxt-link>
       </p>
@@ -15,7 +15,7 @@
       <p>Error code: {{ error.statusCode }}</p>
       <p>
         Try to refresh or return to
-        <nuxt-link to="/home" class="nes-btn is-primary">
+        <nuxt-link to="/" class="nes-btn is-primary">
           Home
         </nuxt-link>
       </p>

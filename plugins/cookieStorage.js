@@ -5,8 +5,9 @@ export default ({ store }) => {
   createPersistedState({
     storage: {
       getItem: key => Cookies.get(key),
-      setItem: (key, value) =>
-        Cookies.set(key, value, { expires: 1, secure: false }),
+      setItem: (key, value) => {
+        Cookies.set(key, value, { expires: 1, secure: false })
+      },
       removeItem: key => Cookies.remove(key)
     },
     key: 'pokedex-nuxt',

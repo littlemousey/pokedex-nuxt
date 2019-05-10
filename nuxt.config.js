@@ -29,7 +29,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/localStorage.js', mode: 'client' }],
+  plugins: [{ src: '~/plugins/cookieStorage.js', mode: 'client' }],
 
   /*
    ** Nuxt.js modules
