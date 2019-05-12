@@ -3,13 +3,19 @@
 > Pokedex built with Vue Nuxt
 > This project started as a mirror of the Pokedex-vue version [project](https://github.com/littlemousey/pokedex-vue) but built with Nuxt with universal (server side rendering) mode.
 
-The app is hosted on [heroku](https://pokedex-nuxt.herokuapp.com/)
+The app is hosted on heroku. You can view the [demo here](https://pokedex-nuxt.herokuapp.com/)
 
-Used libraries outside of Nuxt.js:
+Nuxt.js takes care of
+- Vuex
+- Routing
+
+
+Used libraries which are not included in Nuxt.js:
 
 - [NES.CSS](https://nostalgic-css.github.io/NES.css/)
 - [PokéAPI](https://pokeapi.co/)
 - [Persisted Vuex state](https://github.com/robinvdvleuten/vuex-persistedstate)
+- [cookieparser](https://www.npmjs.com/package/cookieparser)
 
 ## Build Setup
 
