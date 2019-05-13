@@ -43,7 +43,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['loggedIn'])
+    ...mapState('user', ['loggedIn', 'userName'])
   },
   methods: {
     checkPassword() {
@@ -55,12 +55,13 @@ export default {
           { userLoggedIn: true },
           { expires: 1, secure: false }
         )
+        this.setUsername(this.username)
         this.$router.push('/')
       } else {
         this.showPasswordError = true
       }
     },
-    ...mapActions('user', ['setUserLoggedIn'])
+    ...mapActions('user', ['setUserLoggedIn', 'setUsername'])
   },
   meta: {
     requiresAuth: false
