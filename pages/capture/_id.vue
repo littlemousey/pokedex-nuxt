@@ -18,7 +18,7 @@
           <a class="nes-btn" @click="catchPokemon">Throw ball</a>
           <a class="nes-btn" @click="useItem('rock')">Throw rock</a>
           <a class="nes-btn" @click="useItem('berry')">Give berry</a>
-          <a class="nes-btn" @click="openDialog">Flee</a>
+          <a class="nes-btn" @click="flee">Flee</a>
         </div>
       </div>
       <div
@@ -95,10 +95,14 @@ export default {
     playMusic() {
       this.sound.play()
     },
-    openDialog() {
-      this.dialogTitle = 'Flee'
-      this.dialogText = 'You ran away safely'
-      this.showDialog = true
+    flee() {
+      const self = this
+      setTimeout(function() {
+        self.$router.push('/')
+      }, 2000)
+      this.statusText = 'You ran away safely...'
+      this.sound.src = '/sounds/flee.mp3'
+      this.sound.play()
     },
     closeDialog() {
       this.showDialog = false
@@ -167,6 +171,28 @@ export default {
   background-color: white;
   height: 650px;
   margin: 25px 15%;
+}
+
+.nes-dialog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dialog-rounded {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
 }
 
 .capture-screen__pokemon-image {
