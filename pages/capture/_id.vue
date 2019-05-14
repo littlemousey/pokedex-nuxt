@@ -1,48 +1,56 @@
 <template>
-  <div class="capture-screen">
-    <div v-show="!caught" class="nes-container is-rounded catch-window">
-      <div class="capture-screen__pokemon">
-        <img
-          :src="
-            `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-              pokemon.id
-            }.png`
-          "
-          alt="wild pokemon"
-          class="capture-screen__pokemon-image"
-        />
-        <p>You encountered a {{ pokemon.name }}. Try to catch it!</p>
+  <section>
+    <div class="capture-screen">
+      <div v-show="!caught" class="nes-container is-rounded catch-window">
+        <div class="capture-screen__pokemon">
+          <img
+            :src="
+              `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                pokemon.id
+              }.png`
+            "
+            alt="wild pokemon"
+            class="capture-screen__pokemon-image"
+          />
+          <p>{{ statusText }}</p>
+        </div>
+        <div class="capture-screen__actions">
+          <a class="nes-btn" @click="catchPokemon">Throw ball</a>
+          <a class="nes-btn" @click="useItem('rock')">Throw rock</a>
+          <a class="nes-btn" @click="useItem('berry')">Give berry</a>
+          <a class="nes-btn" @click="openDialog">Flee</a>
+        </div>
       </div>
-      <div class="capture-screen__actions">
-        <a class="nes-btn" @click="catchPokemon">Throw ball</a>
-        <a class="nes-btn">Throw rock</a>
-        <a class="nes-btn">Give berry</a>
-        <a class="nes-btn" @click="openDialog">Flee</a>
+      <div
+        v-show="caught"
+        class="nes-container is-rounded pokemon-caught-window"
+      >
+        <div class="capture-screen__pokemon">
+          <i class="nes-pokeball"></i>
+          <p>Congratulations! You caught {{ pokemon.name }}!</p>
+          <nuxt-link to="/" class="nes-btn is-primary">
+            Go back
+          </nuxt-link>
+        </div>
       </div>
       <dialog
         id="dialog-rounded"
         :open="showDialog"
         class="nes-dialog is-rounded"
       >
-        <p class="title">Flee</p>
-        <p>You ran away safely</p>
+        <p class="title">{{ dialogTitle }}</p>
+        <p>{{ dialogText }}</p>
         <menu class="dialog-menu">
-          <button class="nes-btn is-primary" @click="navigateToHome">OK</button>
+          <button class="nes-btn is-primary" @click="closeDialog">OK</button>
         </menu>
       </dialog>
     </div>
-    <div v-show="caught" class="nes-container is-rounded catch-window">
-      <div class="capture-screen__pokemon">
-        <i class="nes-pokeball"></i>
-        <p>Congratulations!</p>
-      </div>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script>
-import determineCatch from '~/utils/catchCalculator.js'
-const audio = new Audio(`/sounds/catch-wild-pokemon.mp3`)
+import catchCalculator from '~/utils/catchCalculator.js'
+
 export default {
   head() {
     return {
@@ -53,8 +61,13 @@ export default {
     return {
       pokemon: null,
       pokemonCatchRate: null,
+      dialogTitle: '',
+      dialogText: '',
       showDialog: false,
-      caught: false
+      statusText: '',
+      playerUsedItem: false,
+      caught: false,
+      sound: null
     }
   },
   validate({ params }) {
@@ -69,31 +82,59 @@ export default {
     return { pokemon: pokemonData, pokemonCatchRate: species.capture_rate }
   },
   mounted() {
+    this.sound = new Audio('/sounds/catch-wild-pokemon.mp3')
     this.playMusic()
+    this.statusText = `You encountered a ${this.pokemon.name}. Try to catch it!`
   },
   beforeRouteLeave(to, from, next) {
-    audio.pause()
+    this.sound.pause()
+    this.sound.currentTime = 0
     next()
   },
   methods: {
     playMusic() {
-      audio.play()
+      this.sound.play()
     },
     openDialog() {
+      this.dialogTitle = 'Flee'
+      this.dialogText = 'You ran away safely'
       this.showDialog = true
     },
-    navigateToHome() {
+    closeDialog() {
       this.showDialog = false
-      this.$router.push('/')
+    },
+    useItem(item) {
+      if (item === 'rock') {
+        this.statusText = `${this.pokemon.name} is getting angry!`
+      }
+      if (item === 'berry') {
+        this.statusText = `${this.pokemon.name} is eager for the berry`
+      }
+      this.playerUsedItem = true
+    },
+    determineCatch() {
+      const catchResult = catchCalculator(
+        this.pokemonCatchRate,
+        this.playerUsedItem
+      )
+      if (catchResult) {
+        this.caught = true
+        this.sound.src = '/sounds/pokemon_capture.mp3'
+        this.sound.play()
+      } else {
+        this.dialogTitle = 'Oh no!'
+        this.dialogText = 'Try again'
+        this.showDialog = true
+      }
     },
     catchPokemon() {
-      const catchResult = determineCatch(this.pokemonCatchRate)
-      if (catchResult) {
-        alert('congratulations! you caught the pokemon')
-        this.caught = true
-      } else {
-        alert('try again')
-      }
+      this.sound.pause()
+      this.sound.src = '/sounds/pokeball-throw.mp3'
+      this.sound.play()
+      const self = this
+      setTimeout(function() {
+        self.determineCatch()
+      }, 2000)
     }
   }
 }
@@ -119,8 +160,31 @@ export default {
   margin: 25px 15%;
 }
 
+.pokemon-caught-window {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: white;
+  height: 650px;
+  margin: 25px 15%;
+}
+
 .capture-screen__pokemon-image {
   height: 400px;
   image-rendering: pixelated;
+  animation-duration: 3s;
+  animation-name: slidein;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: 30%;
+  }
+
+  to {
+    margin-left: -30%;
+  }
 }
 </style>
