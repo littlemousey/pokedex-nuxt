@@ -34,6 +34,11 @@ import { validatePassword } from '@/utils/validatePassword'
 import * as Cookies from 'js-cookie'
 
 export default {
+  head() {
+    return {
+      title: 'Login pokédex'
+    }
+  },
   data: function() {
     return {
       username: '',

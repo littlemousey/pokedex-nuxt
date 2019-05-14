@@ -26,6 +26,11 @@ import SummaryFavorites from '@/components/SummaryFavorites'
 import { mapState, mapActions } from 'vuex'
 
 export default {
+  head() {
+    return {
+      title: 'Pokédex'
+    }
+  },
   components: {
     PokemonList,
     SummaryFavorites
