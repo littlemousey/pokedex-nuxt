@@ -1,6 +1,6 @@
 <template>
   <div class="capture-screen">
-    <div class="nes-container is-rounded catch-window">
+    <div v-show="!caught" class="nes-container is-rounded catch-window">
       <div class="capture-screen__pokemon">
         <img
           :src="
@@ -14,16 +14,34 @@
         <p>You encountered a {{ pokemon.name }}. Try to catch it!</p>
       </div>
       <div class="capture-screen__actions">
-        <a class="nes-btn">Throw ball</a>
+        <a class="nes-btn" @click="catchPokemon">Throw ball</a>
         <a class="nes-btn">Throw rock</a>
         <a class="nes-btn">Give berry</a>
-        <nuxt-link to="/" class="nes-btn">Flee</nuxt-link>
+        <a class="nes-btn" @click="openDialog">Flee</a>
+      </div>
+      <dialog
+        id="dialog-rounded"
+        :open="showDialog"
+        class="nes-dialog is-rounded"
+      >
+        <p class="title">Flee</p>
+        <p>You ran away safely</p>
+        <menu class="dialog-menu">
+          <button class="nes-btn is-primary" @click="navigateToHome">OK</button>
+        </menu>
+      </dialog>
+    </div>
+    <div v-show="caught" class="nes-container is-rounded catch-window">
+      <div class="capture-screen__pokemon">
+        <i class="nes-pokeball"></i>
+        <p>Congratulations!</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import determineCatch from '~/utils/catchCalculator.js'
 const audio = new Audio(`/sounds/catch-wild-pokemon.mp3`)
 export default {
   head() {
@@ -34,7 +52,9 @@ export default {
   data: function() {
     return {
       pokemon: null,
-      pokemonCatchRate: null
+      pokemonCatchRate: null,
+      showDialog: false,
+      caught: false
     }
   },
   validate({ params }) {
@@ -52,13 +72,28 @@ export default {
     this.playMusic()
   },
   beforeRouteLeave(to, from, next) {
-    alert('You ran away safely')
     audio.pause()
     next()
   },
   methods: {
     playMusic() {
       audio.play()
+    },
+    openDialog() {
+      this.showDialog = true
+    },
+    navigateToHome() {
+      this.showDialog = false
+      this.$router.push('/')
+    },
+    catchPokemon() {
+      const catchResult = determineCatch(this.pokemonCatchRate)
+      if (catchResult) {
+        alert('congratulations! you caught the pokemon')
+        this.caught = true
+      } else {
+        alert('try again')
+      }
     }
   }
 }
