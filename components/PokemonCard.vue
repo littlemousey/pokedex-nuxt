@@ -3,7 +3,7 @@
     v-if="pokemonData && pokemonDescription"
     class="pokemon-card nes-container is-rounded"
   >
-    <div class="pokemon-card__image">
+    <div>
       <img
         :src="
           `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
@@ -11,6 +11,7 @@
           }.png`
         "
         :alt="pokemonData.name"
+        class="pokemon-card__image"
       />
     </div>
     <div class="pokemon-card__text">
@@ -26,6 +27,15 @@
         </span>
       </p>
       <p>{{ pokemonDescription[0].flavor_text }}</p>
+      <div class="pokemon-card__practice-button">
+        <router-link
+          type="button"
+          class="nes-btn is-primary"
+          :to="`/capture/${pokemonData.id}`"
+        >
+          Catch
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -76,5 +86,13 @@ export default {
   align-items: center;
   justify-content: space-around;
   margin: 10px;
+}
+
+.pokemon-card__practice-button {
+  text-align: right;
+}
+
+.pokemon-card__image {
+  height: 150px;
 }
 </style>

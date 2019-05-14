@@ -29,7 +29,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/cookieStorage.js', mode: 'client' }],
+  plugins: [{ src: '~/plugins/vuex-persist', mode: 'client' }],
 
   /*
    ** Nuxt.js modules

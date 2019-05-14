@@ -20,6 +20,11 @@
 import { mapState } from 'vuex'
 import PokemonCard from '@/components/PokemonCard'
 export default {
+  head() {
+    return {
+      title: 'Pokédex favorites'
+    }
+  },
   components: {
     PokemonCard
   },

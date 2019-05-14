@@ -1,6 +1,10 @@
 <template>
   <div class="select-pokemon-page">
     <img src="~/assets/img/logo-pixel.gif" alt="pokémon" />
+    <p>
+      Welcome <span v-if="username">{{ username }}</span>
+      <span v-else>trainer</span>
+    </p>
     <div class="select-pokemon-content">
       <pokemon-list
         :state-pokemon-data-list="statePokemonDataList"
@@ -26,13 +30,19 @@ import SummaryFavorites from '@/components/SummaryFavorites'
 import { mapState, mapActions } from 'vuex'
 
 export default {
+  head() {
+    return {
+      title: 'Pokédex'
+    }
+  },
   components: {
     PokemonList,
     SummaryFavorites
   },
   computed: {
     ...mapState('pokemonList', ['statePokemonDataList']),
-    ...mapState('favoritePokemon', ['stateFavoritePokemonList'])
+    ...mapState('favoritePokemon', ['stateFavoritePokemonList']),
+    ...mapState('user', ['username'])
   },
   async created() {
     const pokemonData = await this.getPokemonData()
