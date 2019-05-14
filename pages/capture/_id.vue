@@ -33,11 +33,7 @@
           </nuxt-link>
         </div>
       </div>
-      <dialog
-        id="dialog-rounded"
-        :open="showDialog"
-        class="nes-dialog is-rounded"
-      >
+      <dialog id="nes-dialog" :open="showDialog" class="nes-dialog is-rounded">
         <p class="title">{{ dialogTitle }}</p>
         <p>{{ dialogText }}</p>
         <menu class="dialog-menu">
@@ -126,7 +122,7 @@ export default {
         this.sound.src = '/sounds/pokemon_capture.mp3'
         this.sound.play()
       } else {
-        this.dialogTitle = 'Oh no!'
+        this.dialogTitle = 'Oh no it failed!'
         this.dialogText = 'Try again'
         this.showDialog = true
       }
@@ -173,26 +169,12 @@ export default {
   margin: 25px 15%;
 }
 
-.nes-dialog {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.dialog-rounded {
+#nes-dialog {
   position: fixed; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-  cursor: pointer; /* Add a pointer on hover */
+  top: 150px;
+  margin: 0 auto;
+  background-color: white;
+  z-index: 2;
 }
 
 .capture-screen__pokemon-image {
