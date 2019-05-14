@@ -1,4 +1,4 @@
 export default () => ({
-  username: 'trainer',
+  username: '',
   loggedIn: false
 })
