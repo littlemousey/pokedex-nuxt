@@ -1,10 +1,10 @@
-export function validatePassword(password) {
-  const MASTERPASSWORD = 'pokemonmaster'
-  const correctLength = checksOnLength(password)
-  const correctCasing = checkOnLowerCase(password)
-  const noIllegalCharacters = checkOnForbiddenLetters(password)
-  const hasConsecutiveLetters = checksOnConsecutiveLetters(password)
-  const hasTwoPairsOfLetters = checksOnPairsOfLetters(password)
+export function validatePassword(password: string): boolean {
+  const MASTERPASSWORD: string = 'pokemonmaster'
+  const correctLength: boolean = checksOnLength(password)
+  const correctCasing: boolean = checkOnLowerCase(password)
+  const noIllegalCharacters: boolean = checkOnForbiddenLetters(password)
+  const hasConsecutiveLetters: boolean = checksOnConsecutiveLetters(password)
+  const hasTwoPairsOfLetters: boolean = checksOnPairsOfLetters(password)
 
   if (
     (correctLength &&
@@ -20,12 +20,12 @@ export function validatePassword(password) {
   }
 }
 
-export function checksOnConsecutiveLetters(password) {
+export function checksOnConsecutiveLetters(password: string): boolean {
   password = password.replace(/[0-9]/g, '') // strip numbers from string
-  let previousCharCode = null
-  let currentCharCode = null
-  let counterForConsecutiveLetters = 0
-  let passwordContainsConsecutiveLetters = false
+  let previousCharCode: number = 0
+  let currentCharCode: number = 0
+  let counterForConsecutiveLetters: number = 0
+  let passwordContainsConsecutiveLetters: boolean = false
 
   for (let x = 0; x < password.length; x++) {
     currentCharCode = password.charCodeAt(x)
@@ -44,12 +44,12 @@ export function checksOnConsecutiveLetters(password) {
   return passwordContainsConsecutiveLetters
 }
 
-export function checksOnPairsOfLetters(password) {
+export function checksOnPairsOfLetters(password: string): boolean {
   password = password.replace(/[0-9]/g, '') // strip numbers from string
-  let previousCharCode = null
-  let currentCharCode = null
-  let counterForSameLetter = 0
-  let passwordContainsTwoPairs = false
+  let previousCharCode: number = 0
+  let currentCharCode: number = 0
+  let counterForSameLetter: number = 0
+  let passwordContainsTwoPairs: boolean = false
 
   for (let x = 0; x < password.length; x++) {
     currentCharCode = password.charCodeAt(x)
@@ -65,7 +65,7 @@ export function checksOnPairsOfLetters(password) {
   return passwordContainsTwoPairs
 }
 
-export function checksOnLength(password) {
+export function checksOnLength(password: string): boolean {
   if (password.length > 32) {
     return false
   } else {
@@ -73,8 +73,8 @@ export function checksOnLength(password) {
   }
 }
 
-export function checkOnLowerCase(password) {
-  const regex = /[^a-z]+/g
+export function checkOnLowerCase(password: string): boolean {
+  const regex = /[^a-z]+/g // checks if there is a match of anything else than lowercase letters
   const invalidMatches = password.match(regex)
   if (invalidMatches) {
     return false
@@ -83,7 +83,7 @@ export function checkOnLowerCase(password) {
   }
 }
 
-export function checkOnForbiddenLetters(password) {
+export function checkOnForbiddenLetters(password: string): boolean {
   if (password.includes('i')) {
     return false
   } else {

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import catchCalculator from '~/utils/catchCalculator.js'
+import catchCalculator from '~/utils/catchCalculator'
 
 export default {
   head() {
