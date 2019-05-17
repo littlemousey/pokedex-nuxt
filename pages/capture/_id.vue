@@ -78,6 +78,7 @@ export default {
     return { pokemon: pokemonData, pokemonCatchRate: species.capture_rate }
   },
   mounted() {
+    this.pokemon.name = this.capitalizePokemonName(this.pokemon.name)
     this.sound = new Audio('/sounds/catch-wild-pokemon.mp3')
     this.playMusic()
     this.statusText = `You encountered a ${this.pokemon.name}. Try to catch it!`
@@ -88,6 +89,9 @@ export default {
     next()
   },
   methods: {
+    capitalizePokemonName(name) {
+      return name.charAt(0).toUpperCase() + name.slice(1)
+    },
     playMusic() {
       this.sound.play()
     },
