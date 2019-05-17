@@ -1,11 +1,11 @@
-export default function(catchRate, offset) {
-  let catchThreshold
+export default function(catchRate: number, offset: boolean): boolean {
+  let catchThreshold: number
   if (offset) {
     catchThreshold = catchRate / 255 + 0.02
   } else {
     catchThreshold = catchRate / 255
   }
-  const chance = Math.random()
+  const chance: number = Math.random()
 
   if (chance < catchThreshold) {
     return true

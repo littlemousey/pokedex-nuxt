@@ -15,7 +15,10 @@
       />
     </div>
     <div class="pokemon-card__text">
-      <p>Name: {{ pokemonData.name }}</p>
+      <p>
+        Name:
+        <span class="pokemon-card__pokemon-name">{{ pokemonData.name }}</span>
+      </p>
       <p>No. {{ pokemonData.id }}</p>
       <p>
         Type:
@@ -94,5 +97,9 @@ export default {
 
 .pokemon-card__image {
   height: 150px;
+}
+
+.pokemon-card__pokemon-name {
+  text-transform: capitalize;
 }
 </style>

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import catchCalculator from '~/utils/catchCalculator.js'
+import catchCalculator from '~/utils/catchCalculator'
 
 export default {
   head() {
@@ -63,6 +63,7 @@ export default {
       statusText: '',
       playerUsedItem: false,
       caught: false,
+      backgroundMusic: null,
       sound: null
     }
   },
@@ -78,18 +79,23 @@ export default {
     return { pokemon: pokemonData, pokemonCatchRate: species.capture_rate }
   },
   mounted() {
-    this.sound = new Audio('/sounds/catch-wild-pokemon.mp3')
+    this.pokemon.name = this.capitalizePokemonName(this.pokemon.name)
+    this.backgroundMusic = new Audio('/sounds/catch-wild-pokemon.mp3')
+    this.sound = new Audio()
     this.playMusic()
     this.statusText = `You encountered a ${this.pokemon.name}. Try to catch it!`
   },
   beforeRouteLeave(to, from, next) {
-    this.sound.pause()
-    this.sound.currentTime = 0
+    this.backgroundMusic.pause()
+    this.backgroundMusic.currentTime = 0
     next()
   },
   methods: {
+    capitalizePokemonName(name) {
+      return name.charAt(0).toUpperCase() + name.slice(1)
+    },
     playMusic() {
-      this.sound.play()
+      this.backgroundMusic.play()
     },
     flee() {
       const self = this
@@ -125,10 +131,11 @@ export default {
         this.dialogTitle = 'Oh no it failed!'
         this.dialogText = 'Try again'
         this.showDialog = true
+        this.backgroundMusic.play()
       }
     },
     catchPokemon() {
-      this.sound.pause()
+      this.backgroundMusic.pause()
       this.sound.src = '/sounds/pokeball-throw.mp3'
       this.sound.play()
       const self = this

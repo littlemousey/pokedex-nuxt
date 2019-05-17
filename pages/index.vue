@@ -55,7 +55,6 @@ export default {
       )
       return data.results
     },
-    ...mapActions('favoritePokemon', ['setFavoritePokemonList']),
     ...mapActions('pokemonList', ['setPokemonData']),
     ...mapActions('favoritePokemon', ['deleteFavorite']),
     ...mapActions('favoritePokemon', ['addFavorite']),
