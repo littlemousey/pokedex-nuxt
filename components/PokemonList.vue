@@ -2,15 +2,12 @@
   <div class="pokemon-list">
     <h2>Choose your Pokémon</h2>
     <p
-      v-for="(pokemon, index) in statePokemonDataList"
+      v-for="(pokemon, index) in pokemonList"
       :key="pokemon.url"
       class="pokemon-list-item"
     >
       {{ index + 1 + '. ' }}
-      <i
-        v-if="stateFavoritePokemonList.includes(pokemon.name)"
-        class="nes-icon is-small heart"
-      />
+      <i v-if="pokemon.isFavorite" class="nes-icon is-small heart" />
       <i v-else class="nes-icon is-small heart is-empty" />
       {{ pokemon.name }}
       <img
@@ -22,14 +19,14 @@
         alt="Pokemon`"
       />
       <a
-        v-show="!stateFavoritePokemonList.includes(pokemon.name)"
+        v-show="!pokemon.isFavorite"
         class="nes-btn"
         :class="{ 'is-disabled': favoriteListLength === 10 }"
         @click="setFavorites(pokemon.name), playPokemonCry(index + 1)"
         >Pick me!</a
       >
       <button
-        v-show="stateFavoritePokemonList.includes(pokemon.name)"
+        v-show="pokemon.isFavorite"
         class="nes-btn is-error"
         @click="setFavorites(pokemon.name), playPokemonCry(index + 1)"
       >
@@ -55,6 +52,12 @@ export default {
   computed: {
     favoriteListLength() {
       return this.stateFavoritePokemonList.length
+    },
+    pokemonList() {
+      return this.statePokemonDataList.map(pokemon => ({
+        ...pokemon,
+        isFavorite: this.stateFavoritePokemonList.includes(pokemon.name)
+      }))
     }
   },
   methods: {
