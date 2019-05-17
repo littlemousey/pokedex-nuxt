@@ -22,13 +22,14 @@
         v-show="!pokemon.isFavorite"
         class="nes-btn"
         :class="{ 'is-disabled': favoriteListLength === 10 }"
-        @click="setFavorites(pokemon.name), playPokemonCry(index + 1)"
+        :disabled="favoriteListLength === 10"
+        @click="setFavorites(pokemon.name, index + 1)"
         >Pick me!</a
       >
       <button
         v-show="pokemon.isFavorite"
         class="nes-btn is-error"
-        @click="setFavorites(pokemon.name), playPokemonCry(index + 1)"
+        @click="setFavorites(pokemon.name, index + 1)"
       >
         Remove
       </button>
@@ -61,7 +62,7 @@ export default {
     }
   },
   methods: {
-    setFavorites(name) {
+    setFavorites(name, index) {
       if (this.stateFavoritePokemonList.includes(name)) {
         const indexInArray = this.stateFavoritePokemonList.indexOf(name)
         this.$emit('deleteFavoritePokemon', indexInArray)
@@ -69,6 +70,7 @@ export default {
       }
       if (this.favoriteListLength < 10) {
         this.$emit('addFavoritePokemon', name)
+        this.playPokemonCry(index)
       }
     },
     playPokemonCry(pokemonId) {
