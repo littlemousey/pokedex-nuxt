@@ -3,23 +3,53 @@
     <div class="capture-screen">
       <div v-show="!caught" class="nes-container is-rounded catch-window">
         <div class="capture-screen__pokemon">
-          <img
-            :src="
-              `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                pokemon.id
-              }.png`
-            "
-            alt="wild pokemon"
-            class="capture-screen__pokemon-image"
-          />
-          <i v-show="showPokeball" class="nes-pokeball throw-pokeball"></i>
+          <div class="capture-screen__pokemon-image-wrapper">
+            <img
+              :src="
+                `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                  pokemon.id
+                }.png`
+              "
+              alt="wild pokemon"
+              class="capture-screen__pokemon-image"
+            />
+            <i v-show="showPokeball" class="nes-pokeball throw-pokeball"></i>
+          </div>
           <p>{{ statusText }}</p>
         </div>
         <div class="capture-screen__actions">
-          <a class="nes-btn" @click="catchPokemon">Throw ball</a>
-          <a class="nes-btn" @click="useItem('rock')">Throw rock</a>
-          <a class="nes-btn" @click="useItem('berry')">Give berry</a>
-          <a class="nes-btn" @click="flee">Flee</a>
+          <button
+            class="nes-btn"
+            @click="catchPokemon"
+            :class="{ 'is-disabled': showPokeball }"
+            :disabled="showPokeball"
+          >
+            Throw ball
+          </button>
+          <button
+            class="nes-btn"
+            @click="useItem('rock')"
+            :class="{ 'is-disabled': showPokeball }"
+            :disabled="showPokeball"
+          >
+            Throw rock
+          </button>
+          <button
+            class="nes-btn"
+            @click="useItem('berry')"
+            :class="{ 'is-disabled': showPokeball }"
+            :disabled="showPokeball"
+          >
+            Give berry
+          </button>
+          <button
+            class="nes-btn"
+            @click="flee"
+            :class="{ 'is-disabled': showPokeball }"
+            :disabled="showPokeball"
+          >
+            Flee
+          </button>
         </div>
       </div>
       <div
@@ -48,6 +78,7 @@
 <script>
 import catchCalculator from '~/utils/catchCalculator'
 import { setTimeout } from 'timers'
+import { mapActions } from 'vuex'
 
 export default {
   head() {
@@ -130,6 +161,7 @@ export default {
         this.caught = true
         this.sound.src = '/sounds/pokemon_capture.mp3'
         this.sound.play()
+        this.addCaughtPokemon(pokemon)
       } else {
         this.dialogTitle = 'Oh no it failed!'
         this.dialogText = 'Try again'
@@ -141,7 +173,7 @@ export default {
       this.showPokeball = true
       setTimeout(() => {
         this.showPokeball = false
-      }, 300)
+      }, 1200)
     },
     catchPokemon() {
       this.backgroundMusic.pause()
@@ -152,7 +184,8 @@ export default {
       setTimeout(function() {
         self.determineCatch()
       }, 2000)
-    }
+    },
+    ...mapActions('caughtPokemon', ['addCaughtPokemon'])
   }
 }
 </script>
@@ -194,20 +227,29 @@ export default {
   z-index: 2;
 }
 
-.capture-screen__pokemon-image {
-  height: 400px;
-  image-rendering: pixelated;
+.capture-screen__pokemon {
+  display: flex;
+  align-items: center;
+}
+
+.capture-screen__pokemon-image-wrapper {
+  position: relative;
+  width: 400px;
   animation-duration: 3s;
   animation-name: move-pokemon;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
+.capture-screen__pokemon-image {
+  width: 400px;
+  image-rendering: pixelated;
+}
 
 .throw-pokeball {
-  left: -250px;
-  -webkit-animation: slide-bl 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse
+  position: absolute;
+  -webkit-animation: slide-bl 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse
     both;
-  animation: slide-bl 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
+  animation: slide-bl 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
 }
 
 @keyframes move-pokemon {
