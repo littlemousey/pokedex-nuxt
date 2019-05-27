@@ -44,54 +44,43 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import PokemonData from './PokemonData.type'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import PokemonData from '~/types/PokemonData.type'
+import PokemonDescription from '~/types/PokemonDescription.type'
+import axios, { AxiosResponse, AxiosPromise } from 'axios'
 
 @Component({
   name: 'PokemonCard'
 })
 export default class PokemonCard extends Vue {
   pokemonData: PokemonData | null = null
-  pokemonDescription: object | null = null
-}
+  pokemonDescription: PokemonDescription | null = null
 
-// export default {
-//   name: 'PokemonCard',
-//   props: {
-//     pokemonName: {
-//       type: String,
-//       default: ''
-//     }
-//   },
-//   data: function() {
-//     return {
-//       pokemonData: null,
-//       pokemonDescription: null
-//     }
-//   },
-//   async created() {
-//     if (this.pokemonName) {
-//       this.pokemonData = await this.getDataSpecificPokemon(this.pokemonName)
-//       this.pokemonDescription = await this.getPokemonDescription(
-//         this.pokemonData
-//       )
-//     }
-//   },
-//   methods: {
-//     async getDataSpecificPokemon(name) {
-//       const data = await this.$axios.$get(
-//         `https://pokeapi.co/api/v2/pokemon/${name}/`
-//       )
-//       return data
-//     },
-//     async getPokemonDescription(pokemonData) {
-//       const data = await this.$axios.$get(`${pokemonData.species.url}`)
-//       return data.flavor_text_entries.filter(function(element) {
-//         return element.language.name === 'en'
-//       })
-//     }
-//   }
-// }
+  @Prop({ default: '' })
+  pokemonName!: string
+
+  async created() {
+    if (this.pokemonName) {
+      this.pokemonData = await this.getDataSpecificPokemon(this.pokemonName)
+      this.pokemonDescription = await this.getPokemonDescription(
+        this.pokemonData
+      )
+    }
+  }
+  async getDataSpecificPokemon(name): Promise<PokemonData> {
+    const { data } = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${name}/`
+    )
+    return data
+  }
+
+  async getPokemonDescription(pokemonData): Promise<PokemonDescription> {
+    const { data } = await axios.get(`${pokemonData.species.url}`)
+    return data.flavor_text_entries.filter(function(element) {
+      return element.language.name === 'en'
+    })
+  }
+}
 </script>
 
 <style scoped>
