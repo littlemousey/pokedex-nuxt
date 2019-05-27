@@ -28,48 +28,53 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from 'vuex'
 import { validatePassword } from '@/utils/validatePassword'
 import * as Cookies from 'js-cookie'
+import { Component, Vue, Prop, namespace } from 'nuxt-property-decorator'
+import { MetaInfo } from 'vue-meta'
 
-export default {
+const User = namespace('user')
+
+@Component({
+  name: 'Login',
+  metaInfo: {
+    meta: [{ requiresAuth: false }]
+  }
+})
+export default class Login extends Vue {
+  @User.Action setUserLoggedIn
+  @User.Action setUsername
+
+  @User.State loggedIn
+  @User.State userName
+
   head() {
     return {
       title: 'Login pokédex'
     }
-  },
-  data: function() {
-    return {
-      username: '',
-      password: '',
-      passwordCorrect: false,
-      showPasswordError: false
+  }
+
+  username: string = ''
+  password: string = ''
+  passwordCorrect: boolean = false
+  showPasswordError: boolean = false
+
+  checkPassword() {
+    this.passwordCorrect = validatePassword(this.password)
+    if (this.passwordCorrect) {
+      this.setUserLoggedIn()
+      Cookies.set(
+        'pokedexNuxtUser',
+        { userLoggedIn: true },
+        { expires: 1, secure: false }
+      )
+      this.setUsername(this.username)
+      this.$router.push('/')
+    } else {
+      this.showPasswordError = true
     }
-  },
-  computed: {
-    ...mapState('user', ['loggedIn', 'userName'])
-  },
-  methods: {
-    checkPassword() {
-      this.passwordCorrect = validatePassword(this.password)
-      if (this.passwordCorrect) {
-        this.setUserLoggedIn()
-        Cookies.set(
-          'pokedexNuxtUser',
-          { userLoggedIn: true },
-          { expires: 1, secure: false }
-        )
-        this.setUsername(this.username)
-        this.$router.push('/')
-      } else {
-        this.showPasswordError = true
-      }
-    },
-    ...mapActions('user', ['setUserLoggedIn', 'setUsername'])
-  },
-  meta: {
-    requiresAuth: false
   }
 }
 </script>
