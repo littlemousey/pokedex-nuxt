@@ -37,48 +37,52 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'PokemonList',
-  props: {
-    statePokemonDataList: {
-      type: Array,
-      required: true
-    },
-    stateFavoritePokemonList: {
-      type: Array,
-      required: true
+<script lang="ts">
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+import Pokemon from '~/types/Pokemon.type'
+
+interface PokemonFavorited extends Pokemon {
+  isFavorite: boolean
+}
+
+@Component({
+  name: 'PokemonList'
+})
+export default class PokemonList extends Vue {
+  @Prop({ required: true })
+  statePokemonDataList!: Array<Pokemon>
+
+  @Prop({ required: true })
+  stateFavoritePokemonList!: Array<string>
+
+  get favoriteListLength(): number {
+    return this.stateFavoritePokemonList.length
+  }
+
+  get pokemonList(): PokemonFavorited[] {
+    return this.statePokemonDataList.map(pokemon => ({
+      ...pokemon,
+      isFavorite: this.stateFavoritePokemonList.includes(pokemon.name)
+    }))
+  }
+
+  setFavorites(name, index) {
+    if (this.stateFavoritePokemonList.includes(name)) {
+      const indexInArray = this.stateFavoritePokemonList.indexOf(name)
+      this.$emit('deleteFavoritePokemon', indexInArray)
+      return
     }
-  },
-  computed: {
-    favoriteListLength() {
-      return this.stateFavoritePokemonList.length
-    },
-    pokemonList() {
-      return this.statePokemonDataList.map(pokemon => ({
-        ...pokemon,
-        isFavorite: this.stateFavoritePokemonList.includes(pokemon.name)
-      }))
+    if (this.favoriteListLength < 10) {
+      this.$emit('addFavoritePokemon', name)
+      this.playPokemonCry(index)
     }
-  },
-  methods: {
-    setFavorites(name, index) {
-      if (this.stateFavoritePokemonList.includes(name)) {
-        const indexInArray = this.stateFavoritePokemonList.indexOf(name)
-        this.$emit('deleteFavoritePokemon', indexInArray)
-        return
-      }
-      if (this.favoriteListLength < 10) {
-        this.$emit('addFavoritePokemon', name)
-        this.playPokemonCry(index)
-      }
-    },
-    playPokemonCry(pokemonId) {
-      const audio = new Audio(
-        `https://pokemoncries.com/cries-old/${pokemonId}.mp3`
-      )
-      audio.play()
-    }
+  }
+
+  playPokemonCry(pokemonId) {
+    const audio = new Audio(
+      `https://pokemoncries.com/cries-old/${pokemonId}.mp3`
+    )
+    audio.play()
   }
 }
 </script>
