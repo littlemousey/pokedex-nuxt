@@ -26,14 +26,15 @@
   </section>
 </template>
 
-<script>
-export default {
-  props: {
-    error: {
-      type: Object,
-      required: true
-    }
-  }
+<script lang="ts">
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+
+@Component({
+  name: 'Error'
+})
+export default class Error extends Vue {
+  @Prop({ required: true })
+  error!: object
 }
 </script>
 
