@@ -33,7 +33,6 @@ import { mapActions, mapState } from 'vuex'
 import { validatePassword } from '@/utils/validatePassword'
 import * as Cookies from 'js-cookie'
 import { Component, Vue, Prop, namespace } from 'nuxt-property-decorator'
-import { MetaInfo } from 'vue-meta'
 
 const User = namespace('user')
 
@@ -48,7 +47,7 @@ export default class Login extends Vue {
   @User.Action setUsername
 
   @User.State loggedIn
-  @User.State userName
+  @User.State username
 
   head() {
     return {
