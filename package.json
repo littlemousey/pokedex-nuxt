@@ -22,7 +22,7 @@
     "js-cookie": "^2.2.0",
     "midi-player-js": "^2.0.5",
     "nes.css": "^2.1.1",
-    "nuxt": "^2.4.0",
+    "nuxt": "^2.15.8",
     "ts-node": "^8.1.0",
     "vue-property-decorator": "^8.1.1",
     "vuex-class": "^0.3.2",
@@ -50,6 +50,6 @@
     "jest": "^24.1.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4",
-    "vue-jest": "^3.0.3"
+    "vue-jest": "^4.0.1"
   }
 }
