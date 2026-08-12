@@ -1,37 +1,74 @@
 # pokedex-nuxt
 
-> Pokedex built with Vue Nuxt
-> This project started as a mirror of the Pokedex-vue version [project](https://github.com/littlemousey/pokedex-vue) but built with Nuxt with universal (server side rendering) mode.
+> Pokédex built with Nuxt 4 and Vue 3.
+> This project started as a mirror of the [pokedex-vue](https://github.com/littlemousey/pokedex-vue) project, built with Nuxt in universal (server-side rendering) mode.
 
-The app is hosted on heroku. You can view the [demo here](https://pokedex-nuxt.herokuapp.com/)
+Originally written on Nuxt 2 / Vue 2 in 2019, rebuilt on Nuxt 4 in 2026. The retro
+NES.css look is unchanged; the layouts are now responsive, dark-mode aware and
+keyboard accessible.
 
-Nuxt.js takes care of
-- Vuex
-- Routing
+## Stack
 
+- [Nuxt 4](https://nuxt.com) — routing, SSR, auto-imports
+- [Pinia](https://pinia.vuejs.org/) — state (`app/stores/`)
+- [NES.CSS](https://nostalgic-css.github.io/NES.css/) — retro UI
+- [PokéAPI](https://pokeapi.co/) — Pokémon data, sprites and cries
+- [Vitest](https://vitest.dev) — tests
 
-Used libraries which are not included in Nuxt.js:
+## Structure
 
-- [NES.CSS](https://nostalgic-css.github.io/NES.css/)
-- [PokéAPI](https://pokeapi.co/)
-- [Persisted Vuex state](https://github.com/robinvdvleuten/vuex-persistedstate)
-- [cookieparser](https://www.npmjs.com/package/cookieparser)
+```
+app/
+  components/   PokemonList, PokemonCard, SummaryFavorites, TypeBadge
+  composables/  useAudio (autoplay-safe playback), useSession (cookie)
+  middleware/   auth.global.ts — guards routes on server and client
+  pages/        index, login, favorites, capture/[id]
+  stores/       user, pokemonList, favoritePokemon
+  utils/        catchCalculator, validatePassword, pokemon helpers
+public/         fonts, sounds, favicon
+test/           Vitest specs
+```
 
-## Build Setup
+## Requirements
+
+Node >= 22.12 (see `.nvmrc`; run `nvm use`).
+
+`npm run dev` does work on Node 20.19, but `npm run build` does not: the
+production CSS minifier calls `Set.prototype.isSubsetOf`, which only exists
+from Node 22. Since a build you cannot run is not much use, `engines` requires
+22.
+
+## Build setup
 
 ```bash
 # install dependencies
-$ npm install
+npm install
 
 # serve with hot reload at localhost:3000
-$ npm run dev
+npm run dev
 
-# build for production and launch server
-$ npm run build
-$ npm start
+# build for production and serve
+npm run build
+npm run preview
 
-# generate static project
-$ npm run generate
+# production start (what the Procfile runs)
+npm run build && npm start
+
+# generate a static site
+npm run generate
+
+# tests, lint, types
+npm run test
+npm run lint
+npm run typecheck
 ```
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+## Logging in
+
+The login is a puzzle, not real authentication. A password is accepted when it
+is at most 32 characters, all lowercase letters, contains no `i`, contains three
+consecutive ascending letters, and contains two pairs of repeated letters — for
+example `abcaabb`. `pokemonmaster` bypasses all of it.
+
+Session state (name and favourites) is kept in the `pokedexNuxtUser` cookie for
+three days.

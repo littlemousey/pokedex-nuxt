@@ -1,62 +1,32 @@
-import NuxtConfiguration from '@nuxt/config'
-import pkg from './package.json'
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  compatibilityDate: '2025-01-01',
 
-const config: NuxtConfiguration = {
-  mode: 'universal',
+  devtools: { enabled: true },
 
-  /*
-   ** Headers of the page
-   */
-  head: {
-    title: pkg.name,
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
-    ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
-  },
+  modules: ['@pinia/nuxt', '@nuxt/eslint', '@nuxt/test-utils/module'],
 
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: { color: '#fff' },
-
-  /*
-   ** Global CSS
-   */
-  css: ['nes.css/css/nes.css', '~/assets/styles.css'],
-
-  /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: [{ src: '~/plugins/vuex-persist', mode: 'client' }],
-
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa'
-  ],
-  /*
-   ** Axios module configuration
-   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-  },
-
-  build: {
-    extend(config, ctx) {
-      if (ctx.isDev && ctx.isClient) {
-        config.devtool = 'cheap-module-eval-source-map'
-      }
+  app: {
+    head: {
+      title: 'Pokédex',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        {
+          name: 'description',
+          content: 'Pokedex built with Vue Nuxt'
+        },
+        { name: 'theme-color', content: '#212529' }
+      ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     }
   },
-  router: {
-    middleware: ['authentication']
-  }
-}
 
-export default config
+  css: ['nes.css/css/nes.css', '~/assets/css/tokens.css', '~/assets/css/base.css'],
+
+  eslint: {
+    config: {
+      stylistic: false
+    }
+  }
+})

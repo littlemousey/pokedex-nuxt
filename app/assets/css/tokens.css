@@ -1,0 +1,102 @@
+/*
+ * Design tokens.
+ *
+ * The Nuxt 2 app hardcoded its colours and sizes inline in every component
+ * (#83de7b, 500px, 650px, 15%). Everything lives here now so the retro look
+ * stays consistent and can adapt to dark mode and small screens.
+ */
+
+:root {
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Layout */
+  --measure-form: 32rem;
+  --measure-page: 80rem;
+  --card-min: 15rem;
+  --radius: 0;
+
+  /* Type scale — Press Start 2P is wide, so these stay conservative */
+  --text-sm: 0.625rem;
+  --text-base: 0.75rem;
+  --text-lg: 1rem;
+  --text-xl: 1.25rem;
+
+  /* Colours — light */
+  --bg: #f7f7f7;
+  --bg-raised: #ffffff;
+  --bg-sunken: #e9ecef;
+  --text: #212529;
+  --text-muted: #495057;
+  --border: #212529;
+  --grass: #83de7b;
+  --accent: #209cee;
+  --danger: #e76e55;
+  --success: #92cc41;
+  --focus-ring: #209cee;
+
+  --shadow-pixel: 4px 4px 0 rgb(0 0 0 / 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --bg-raised: #21252b;
+    --bg-sunken: #0d0f12;
+    --text: #f1f3f5;
+    --text-muted: #adb5bd;
+    --border: #f1f3f5;
+    --grass: #2d6b3f;
+    --shadow-pixel: 4px 4px 0 rgb(0 0 0 / 0.5);
+  }
+
+  /*
+   * NES.css hardcodes white backgrounds and black text on its containers,
+   * inputs and dialogs, which is unreadable on a dark ground. Re-point those
+   * at the tokens rather than forking the stylesheet.
+   */
+  .nes-container,
+  .nes-dialog,
+  .nes-input,
+  .nes-btn {
+    background-color: var(--bg-raised);
+    color: var(--text);
+  }
+
+  .nes-container.is-rounded,
+  .nes-dialog.is-rounded {
+    border-image-source: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" ?><svg version="1.1" width="8" height="8" xmlns="http://www.w3.org/2000/svg"><path d="M3 1 h1 v1 h-1 z M4 1 h1 v1 h-1 z M2 2 h1 v1 h-1 z M5 2 h1 v1 h-1 z M1 3 h1 v1 h-1 z M6 3 h1 v1 h-1 z M1 4 h1 v1 h-1 z M6 4 h1 v1 h-1 z M2 5 h1 v1 h-1 z M5 5 h1 v1 h-1 z M3 6 h1 v1 h-1 z M4 6 h1 v1 h-1 z" fill="rgb(241,243,245)" /></svg>');
+  }
+
+  .nes-btn:not(.is-primary):not(.is-success):not(.is-error):not(.is-warning) {
+    box-shadow: inset -4px -4px var(--bg-sunken);
+  }
+}
+
+/* Pokémon type colours — used for the accent bars on cards */
+:root {
+  --type-normal: #a8a77a;
+  --type-fire: #ee8130;
+  --type-water: #6390f0;
+  --type-electric: #f7d02c;
+  --type-grass: #7ac74c;
+  --type-ice: #96d9d6;
+  --type-fighting: #c22e28;
+  --type-poison: #a33ea1;
+  --type-ground: #e2bf65;
+  --type-flying: #a98ff3;
+  --type-psychic: #f95587;
+  --type-bug: #a6b91a;
+  --type-rock: #b6a136;
+  --type-ghost: #735797;
+  --type-dragon: #6f35fc;
+  --type-dark: #705746;
+  --type-steel: #b7b7ce;
+  --type-fairy: #d685ad;
+}
