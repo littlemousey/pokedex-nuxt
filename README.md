@@ -25,7 +25,7 @@ app/
   pages/        index, login, favorites, capture/[id]
   stores/       user, pokemonList, favoritePokemon
   utils/        catchCalculator, validatePassword, pokemon helpers
-public/         fonts, sounds, favicon
+public/         sounds, favicon
 test/           Vitest specs
 ```
 
@@ -57,11 +57,28 @@ npm run build && npm start
 # generate a static site
 npm run generate
 
+# generate the SPA build GitHub Pages deploys
+NUXT_APP_BASE_URL=/pokedex-nuxt/ npm run generate:pages
+
 # tests, lint, types
 npm run test
 npm run lint
 npm run typecheck
 ```
+
+## Deployment
+
+Pushes to `master` run [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
+lint, typecheck and tests, then `generate:pages`, then publish to GitHub Pages at
+https://littlemousey.github.io/pokedex-nuxt/. Enable it once under
+**Settings → Pages → Source → GitHub Actions**.
+
+Because Pages has no Node runtime, that build alone runs with `ssr: false`
+(`NUXT_SPA=true`) and serves `404.html` as the SPA fallback for deep links.
+`npm run build && npm start` is unaffected and still server-renders.
+
+Anything read from `public/` at runtime must go through `publicAsset()` so it
+picks up the `/pokedex-nuxt/` base path.
 
 ## Logging in
 

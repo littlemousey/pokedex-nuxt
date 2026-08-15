@@ -13,7 +13,8 @@ export function useAudio() {
 
   function create(src: string, options: { loop?: boolean } = {}) {
     if (!import.meta.client) return null
-    const audio = new Audio(src)
+    // `src` is a public/ path, so it needs the deployed base URL prefixed.
+    const audio = new Audio(publicAsset(src))
     audio.loop = options.loop ?? false
     tracks.add(audio)
     return audio
